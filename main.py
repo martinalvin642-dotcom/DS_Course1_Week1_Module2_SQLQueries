@@ -1,11 +1,165 @@
-from currency_converter import convert_currency, get_exchange_rate, exchange
+#CodeGrade step0
 
-amount = 100
-from_currency = 'USD'
-to_currency = 'EUR'
+# Run this cell without changes
 
-converted_amount = convert_currency(amount, from_currency, to_currency, exchange)
-exchange_rate = get_exchange_rate(from_currency, to_currency, exchange)
+import pandas as pd
+import sqlite3
 
-print(f"{amount} {from_currency} is equal to {converted_amount} {to_currency}")
-print(f"The exchange rate from {from_currency} to {to_currency} is {exchange_rate}")
+# Create the connection
+# Note the connect is 'conn1' since there will be multiple .db used
+conn1 = sqlite3.connect('planets.db')
+
+# Select all
+pd.read_sql("""SELECT * FROM planets; """, conn1)
+#CodeGrade step1
+# Replace None with your code
+df_no_moons =pd.read_sql("""
+     SELECT *
+     FROM planets
+     WHERE num_of_moons = 0;
+
+""",conn1)
+df_no_moons
+
+# CodeGrade step2
+# Replace None with your code
+df_name_seven = pd.read_sql("""
+        SELECT name, mass
+        FROM planets 
+        WHERE name LIKE('_______');
+            
+""",conn1)
+df_name_seven
+
+# CodeGrade step3
+# Replace None with your code
+df_mass = pd.read_sql("""
+SELECT name, mass 
+FROM planets
+WHERE mass <= 1.00;
+""",conn1)
+df_mass
+
+# CodeGrade step4
+# Replace None with your code
+df_mass_moon = pd.read_sql("""
+SELECT * 
+FROM planets 
+     WHERE num_of_moons <=1 AND mass <1.00;
+
+
+""",conn1)
+df_mass_moon
+
+# CodeGrade step5
+# Replace None with your code
+df_blue =pd.read_sql("""
+SELECT name, color
+FROM planets
+     WHERE color = 'blue';
+
+
+""",conn1)
+df_blue
+
+# CodeGrade step0
+
+# Run this cell without changes
+
+# Create a connection
+# Note the connect is 'conn2' since they will be multiple .db used
+conn2 = sqlite3.connect('dogs.db')
+
+# Select all
+pd.read_sql("SELECT * FROM dogs;", conn2)
+
+# CodeGrade step6
+# Replace None with your code
+df_hungry = pd.read_sql("""
+SELECT name, age, breed
+FROM dogs
+     WHERE hungry = 1 
+    ORDER BY age DESC ;
+
+
+
+
+""",conn2)
+df_hungry
+
+# CodeGrade step7
+# Replace None with your code
+df_hungry_ages =pd.read_sql("""
+SELECT name, age, hungry 
+FROM dogs
+WHERE hungry = 1 AND age BETWEEN 2 AND 7
+ORDER BY name ASC;
+
+
+""",conn2)
+df_hungry_ages
+
+# CodeGrade step8
+# Replace None with your code
+df_4_oldest = pd.read_sql("""
+SELECT name, age, breed
+FROM dogs
+ORDER BY age DESC
+LIMIT 4;
+
+""",conn2)
+df_4_oldest
+
+# CodeGrade step0
+
+# Run this cell without changes
+
+# Create a connection
+# Note the connect is 'conn3' since they will be multiple .db used
+conn3 = sqlite3.connect('babe_ruth.db')
+
+# Select all
+pd.read_sql("""
+SELECT * FROM babe_ruth_stats; """, conn3)
+
+# CodeGrade step9
+# Replace None with your code
+df_ruth_years = pd.read_sql("""
+SELECT COUNT(year) AS total_number_of_years
+FROM babe_ruth_stats;
+
+""",conn3)
+df_ruth_years
+
+# CodeGrade step10
+# Replace None with your code
+df_hr_total = pd.read_sql("""
+SELECT  SUM(HR) AS total_number_homeruns
+FROM babe_ruth_stats;
+""",conn3)
+df_hr_total
+
+# CodeGrade step11
+# Replace None with your code
+df_teams_years = pd.read_sql("""
+SELECT team, COUNT(year) AS number_of_years
+FROM babe_ruth_stats
+GROUP BY team
+""",conn3)
+df_teams_years
+
+# CodeGrade step12
+# Replace None with your code
+df_at_bats =pd.read_sql("""
+SELECT team, AVG(at_bats) AS average_at_bats
+FROM babe_ruth_stats
+     GROUP BY team;
+
+""",conn3)
+df_at_bats
+
+# Run this cell without changes
+
+conn1.close()
+conn2.close()
+conn3.close()
